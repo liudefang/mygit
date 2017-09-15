@@ -1,0 +1,78 @@
+<form id="pagerForm" action="{% url readers_index %}" method="post">
+	<input type="hidden" name="pageNum" value="{{ currentPage }}"/>
+	<input type="hidden" name="numPerPage" value="{{ numPerPage }}"/>
+	<input type="hidden" name="account" value=""/>
+</form>
+
+<script type="text/javascript">
+  	if(typeof(dwzinit)=='undefined') {
+		self.location="/"
+  	}
+</script>
+
+<div class="page">
+	<div class="pageHeader">
+		<form onsubmit="return navTabSearch(this);" action="{% url readers_search %}" method="post">
+		<div class="searchBar">
+			<table class="searchContent">
+				<tr>
+					<td>
+						姓名：<input type="text" name="q" value="{{ q }}" />
+					</td>
+					<td><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></td>
+				</tr>
+			</table>
+		</div>
+		</form>
+	</div>
+
+	<div class="pageContent">
+		<div class="panelBar">
+			<ul class="toolBar">
+				<li><a class="add" href="{% url readers_add %}" target="dialog" mask="true" width="600" height="400" title="添加借阅人" rel="addresource"><span>新增</span></a></li>
+                <li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids" postType="string" href="{% url readers_selecteddelete %}" class="delete"><span>批量删除</span></a></li>
+                <li class="line">line</li>
+			</ul>
+		</div>
+
+		<table class="table" width="100%" layoutH="116">
+			<thead>
+			<tr>
+				<th width="3%">
+				<input type="checkbox" group="ids" class="checkboxCtrl">
+				</th>
+				<th width="5%">序号</th>
+				<th width="15%">账号</th>
+				<th width="15%">姓名</th>
+				<th width="25%">邮箱</th>
+				<th width="15%">联系电话</th>
+				<th width="27%">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+		   {% for reader in readers.object_list %}
+           <tr target="sid_group" rel="{{ reader.id }}">
+           <td><input name="ids" value="{{ reader.id }}" type="checkbox"></td>
+           {% load common_tags %}
+           <td>{{ forloop.counter|calculate:currentPage }}</td>
+           <td>{{ reader.account }}</td>
+           <td>{{ reader.name }}</td>
+           <td>{{ reader.email }}</td>
+           <td>{{ reader.contact }}</td>
+           <td>
+              <a class="edit" href="{% url readers_edit reader.id %}" target="dialog" mask="true"  width="600" height="400" rel="editresource"><span>编辑</span></a>
+              <a class="delete" href="{% url readers_delete reader.id %}" target="ajaxTodo"  rel="deleteres" title="您确定要删除该项吗？"><span>删除</span></a>
+           </td>
+           </tr>
+           {% endfor %}
+			</tbody>
+		</table>
+		<div class="panelBar">
+			<div class="pages">
+				<span>共{{ readers.paginator.count }}条</span>
+			</div>
+			<div class="pagination" targetType="navTab" totalCount="{{ readers.paginator.count }}" numPerPage="{{ readers.paginator.per_page }}" pageNumShown="10" currentPage="{{ currentPage }}"></div>
+		</div>
+
+	</div>
+</div>

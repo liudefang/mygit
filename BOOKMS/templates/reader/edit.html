@@ -1,0 +1,33 @@
+<div class="page">
+	<div class="pageContent">
+
+	<form method="post" action="{% url readers_edit reader.id %}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)">
+		<input type="hidden" name="navTabId" value="readerindex"/>
+		<div class="pageFormContent" layoutH="58">
+
+			<div class="unit">
+				<label>账号：</label>
+				<input type="text" class="required" size="30"  name="account" value="{{ reader.account }}" readonly="readonly" />
+			</div>
+			<div class="unit">
+				<label>姓名：</label>
+				<input type="text" size="30" name="name" value="{{ reader.name }}" />
+			</div>
+            <div class="unit">
+				<label>邮箱：</label>
+				<input type="text" class="required email" size="30" name="email" value="{{ reader.email }}" />
+			</div>
+            <div class="unit">
+				<label>联系电话：</label>
+				<input type="text" class="required phone" size="30" name="contact" value="{{ reader.contact }}" />
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+	</div>
+</div>
